@@ -293,3 +293,4 @@ scripts/
 .envrc
 .func.sh
 .tmuxp.yaml
+.whatever
