@@ -13,3 +13,37 @@ tmuxp = "^1.6.0"
 [build-system]
 requires = ["poetry>=0.12"]
 build-backend = "poetry.masonry.api"
+
+[tool.pyright]
+include = ["src"]
+defineConstant = { DEBUG = true }
+# stubPath = "src/stubs"
+typeshedPath = "/Users/yul/Desktop/Repos/typeshed"
+venvPath = "."
+venv = ".venv"
+# pythonPath = ".venv/bin/python"
+reportMissingImports = true
+reportMissingTypeStubs = false
+# pythonVersion = "3.10"
+# pythonPlatform = "Darwin"
+executionEnvironments = [
+  # { root = "src/web", pythonVersion = "3.5", pythonPlatform = "Windows", extraPaths = [ "src/service_libs" ] },
+  { root = "tmuxp_plugin_loader" },
+]
+
+[tool.mypy]
+python_executable = ".venv/bin/python"
+python_version = "3.11"
+follow_imports = "normal"
+pdb = true
+show_traceback = true
+raise_exceptions = true
+custom_typeshed_dir = "/Users/yul/Desktop/Repos/typeshed"
+
+[tool.pylsp-mypy]
+enabled = true
+live_mode = true
+strict = true
+
+[tool.mccabe]
+threshold = 10
