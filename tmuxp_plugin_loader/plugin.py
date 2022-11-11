@@ -4,6 +4,7 @@ from tmuxp.plugin import TmuxpPlugin
 import lsfiles
 import pathlib
 import utils
+import subprocess
 
 Session = libtmux.session.Session
 Window = libtmux.window.Window
@@ -28,6 +29,13 @@ class Loader(TmuxpPlugin):
                     ]
                 }
             )
+        subprocess.run(
+            [
+                "zsh",
+                "-c",
+                "fre --store $DOTFILES/.local/share/fre/fre-projects.json --add $WORKSPACE",
+            ]
+        )
         return config
 
     def before_workspace_builder(self, session: Session):
@@ -42,6 +50,7 @@ class Loader(TmuxpPlugin):
 
         project_name = raiser("PROJECT_NAME")
         workspace = raiser("WORKSPACE")
+        ### HACK: to provide python compatible package name
         from collections import Counter
 
         ext: list[str] = list(
@@ -54,10 +63,11 @@ class Loader(TmuxpPlugin):
                 workspace,
             )
         )
-        c = Counter(ext).most_common(1)
-        if c[0][0] == ".py":
-            project_name, _ = utils.cli.to_snake_case(project_name)
-
+        if ext:
+            c = Counter(ext).most_common(1)
+            if c and c[0][0] == ".py":
+                project_name, _ = utils.cli.to_snake_case(project_name)
+        ###
         session.set_environment("WORKSPACE", workspace)
         session.set_environment("PROJECT_NAME", project_name)
 
