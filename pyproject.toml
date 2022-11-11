@@ -6,7 +6,6 @@ authors = ["Aymeric Guth"]
 
 [tool.poetry.dependencies]
 python = ">=3.10"
-tmuxp = "^1.6.0"
 utils = { git = "https://git.ars-virtualis.org/yul/utils", rev = "master" }
 lsfiles = { git = "https://git.ars-virtualis.org/yul/lsfiles", rev = "master" }
 
