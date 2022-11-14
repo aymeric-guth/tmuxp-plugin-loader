@@ -76,7 +76,11 @@ class Loader(TmuxpPlugin):
         ...
 
     def after_window_finished(self, window: Window):
-        ...
+        import os
+
+        os.environ.update(
+            {"PATH": os.getenv("WORKSPACE") + "/usr/bin:" + os.getenv("PATH")}
+        )
 
     def before_script(self, session: Session):
         ...
