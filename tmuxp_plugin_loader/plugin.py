@@ -29,13 +29,6 @@ class Loader(TmuxpPlugin):
                     ]
                 }
             )
-        subprocess.run(
-            [
-                "zsh",
-                "-c",
-                "fre --store $DOTFILES/.local/share/fre/fre-projects.json --add $WORKSPACE",
-            ]
-        )
         return config
 
     def before_workspace_builder(self, session: Session):
@@ -50,6 +43,7 @@ class Loader(TmuxpPlugin):
 
         project_name = raiser("PROJECT_NAME")
         workspace = raiser("WORKSPACE")
+        subprocess.run(["zsh", "-c", f"source ~/.zshrc && fre_save {workspace}"])
         ### HACK: to provide python compatible package name
         from collections import Counter
 
