@@ -15,6 +15,9 @@ class Loader(TmuxpPlugin):
         config = {"tmuxp_min_version": "1.6.2"}
         TmuxpPlugin.__init__(self, plugin_name="tmuxp-plugin-loader", **config)
 
+    def _pass_version_check(self, version, vmin, vmax, incompatible):
+        return True
+
     def after_config_loaded(self, config):
         # pdb.set_trace()
         if not config.get("session_name") and os.getenv("PROJECT_NAME"):
