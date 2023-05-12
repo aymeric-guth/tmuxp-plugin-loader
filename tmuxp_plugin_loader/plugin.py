@@ -12,7 +12,7 @@ Window = libtmux.window.Window
 
 class Loader(TmuxpPlugin):
     def __init__(self):
-        config = {"tmuxp_min_version": "1.6.2"}
+        config = {"tmuxp_min_version": "1.6.1"}
         TmuxpPlugin.__init__(self, plugin_name="tmuxp-plugin-loader", **config)
 
     def _pass_version_check(self, version, vmin, vmax, incompatible):
@@ -50,20 +50,20 @@ class Loader(TmuxpPlugin):
         ### HACK: to provide python compatible package name
         from collections import Counter
 
-        ext: list[str] = list(
-            f
-            for f in lsfiles.iterativeDFS(
-                lsfiles.filters.ext(
-                    {".py", ".c", ".cpp", ".java", ".js", ".h", ".hpp"}
-                ),
-                lambda f: pathlib.Path(f).suffix,
-                workspace,
-            )
-        )
-        if ext:
-            c = Counter(ext).most_common(1)
-            if c and c[0][0] == ".py":
-                project_name, _ = utils.cli.to_snake_case(project_name)
+        # ext: list[str] = list(
+        #     f
+        #     for f in lsfiles.iterativeDFS(
+        #         lsfiles.filters.ext(
+        #             {".py", ".c", ".cpp", ".java", ".js", ".h", ".hpp"}
+        #         ),
+        #         lambda f: pathlib.Path(f).suffix,
+        #         workspace,
+        #     )
+        # )
+        # if ext:
+        #     c = Counter(ext).most_common(1)
+        #     if c and c[0][0] == ".py":
+        #         project_name, _ = utils.cli.to_snake_case(project_name)
         ###
         session.set_environment("WORKSPACE", workspace)
         session.set_environment("PROJECT_NAME", project_name)
