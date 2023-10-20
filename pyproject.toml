@@ -6,8 +6,8 @@ authors = ["Aymeric Guth"]
 
 [tool.poetry.dependencies]
 python = ">=3.7,<4.0"
-utils = { git = "https://git.ars-virtualis.org/yul/utils", rev = "master" }
-lsfiles = { git = "https://git.ars-virtualis.org/yul/lsfiles", rev = "master" }
+utils = { git = "https://github.com/aymeric-guth/utils", rev = "master" }
+lsfiles = { git = "https://github.com/aymeric-guth/lsfiles", rev = "master" }
 
 [tool.poetry.dev-dependencies]
 
