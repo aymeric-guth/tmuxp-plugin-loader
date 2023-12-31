@@ -1,10 +1,6 @@
 import os
 import libtmux
 from tmuxp.plugin import TmuxpPlugin
-import lsfiles
-import pathlib
-import utils
-import subprocess
 
 Session = libtmux.session.Session
 Window = libtmux.window.Window
@@ -24,14 +20,7 @@ class Loader(TmuxpPlugin):
             config.update({"session_name": "$PROJECT_NAME"})
         if not config.get("start_directory") and os.getenv("WORKSPACE"):
             config.update({"start_directory": "$WORKSPACE"})
-        if not config.get("shell_command_before"):
-            config.update(
-                {
-                    "shell_command_before": [
-                        "[ -f .func.sh ] && source .func.sh || return 0"
-                    ]
-                }
-            )
+
         return config
 
     def before_workspace_builder(self, session: Session):
@@ -46,25 +35,6 @@ class Loader(TmuxpPlugin):
 
         project_name = raiser("PROJECT_NAME")
         workspace = raiser("WORKSPACE")
-        subprocess.run(["zsh", "-c", f"source ~/.zshrc && fre_save {workspace}"])
-        ### HACK: to provide python compatible package name
-        from collections import Counter
-
-        # ext: list[str] = list(
-        #     f
-        #     for f in lsfiles.iterativeDFS(
-        #         lsfiles.filters.ext(
-        #             {".py", ".c", ".cpp", ".java", ".js", ".h", ".hpp"}
-        #         ),
-        #         lambda f: pathlib.Path(f).suffix,
-        #         workspace,
-        #     )
-        # )
-        # if ext:
-        #     c = Counter(ext).most_common(1)
-        #     if c and c[0][0] == ".py":
-        #         project_name, _ = utils.cli.to_snake_case(project_name)
-        ###
         session.set_environment("WORKSPACE", workspace)
         session.set_environment("PROJECT_NAME", project_name)
 
@@ -73,11 +43,7 @@ class Loader(TmuxpPlugin):
         ...
 
     def after_window_finished(self, window: Window):
-        import os
-
-        os.environ.update(
-            {"PATH": os.getenv("WORKSPACE") + "/usr/bin:" + os.getenv("PATH")}
-        )
+        ...
 
     def before_script(self, session: Session):
         ...
